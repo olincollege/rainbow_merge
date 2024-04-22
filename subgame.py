@@ -1,6 +1,7 @@
 from board import board
 
 class Subgame:
+    # this function is to define the characters of the screen of one player
     def __init__(self) -> None:
         subgame_board = board()
         score = 0
