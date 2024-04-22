@@ -1,9 +1,20 @@
+import sys
+import pygame
+from pygame.locals import *
+
+
 class Board:
     def __init__(self):
-        board_pos = #
-        max_height = #
-        restart_button_pos = #
-        pause_button_pos = #
+        self.ground_pos = (0, 700)
+        self.max_height = 100
+        self._ground = pygame.image.load("visuals/ground.jpg")
 
-    def __repr__(self): # do we need this? i think we do
-        pass
+    @property
+    def get_ground(self):
+        return self._ground
+
+    # def disp(self):  # do we need this? i think we do
+    #     screen = pygame.display.set_mode((500,800))
+    #     screen.fill(background_color)
+    #     pygame.display.set_caption("Animal Merger")
+    #     ground_surface = pygame.image.load("visuals/animals.jpg")
