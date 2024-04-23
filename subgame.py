@@ -4,6 +4,8 @@ import sys
 import pygame
 from pygame.locals import *
 
+# import controller
+
 from board import Board
 
 
@@ -21,6 +23,7 @@ class Subgame:
         self.next_animal = random.randrange(3) + 1  # random animal 1-4
         self.timer = pygame.time.Clock()  #
         self.initialize_board()
+        self.draw_board(self.subgame_board)
 
     def initialize_board(self):
         """Creates a blank screen on which the board is drawn."""
@@ -32,7 +35,7 @@ class Subgame:
     def draw_board(self, board):
         """Draws the board."""
         # Draw ground
-        self.screen.blit(board.get_ground(), board.ground_pos)
+        self.screen.blit(pygame.image.load("visuals/ground.jpg"), board.ground_pos)
         # Draw failure line
         pygame.draw.rect(
             self.screen,

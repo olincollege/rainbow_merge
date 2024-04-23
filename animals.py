@@ -19,19 +19,16 @@ class Animal(ABC):
         self.speed = speed
         self.accel = accel
 
-    def disp(self):
-        pass
-
 
 # Folder for visuals (.png files)
 # Ensure that the 'animals' folder is in the same directory as this file and contains the .png files for each animal.
 
 
-class Giraffe(Animal):
+class Animal1(Animal):
 
     radius = 25
     point_value = 5
-    sprite = "animals/giraffe.png"
+    sprite = "visuals/lizard.jpg"
     position = (20, 30)
     speed = 0
 

@@ -1,7 +1,7 @@
 import pygame
 
 
-class controller:
+class Controller:
     """
     A base controller class providing basic functionalities for game controllers.
     This class includes methods to restart the game, display help information, and list game controls.
@@ -35,7 +35,7 @@ class controller:
         pass
 
 
-class p1_controller(controller):
+class P1Controller(Controller):
     """
     A controller for player one, inheriting from the base controller class.
     Handles user input specific to player one using a keyboard.
@@ -69,7 +69,7 @@ class p1_controller(controller):
         return "no input"  # Default return when no relevant keys are pressed
 
 
-class p2_controller(controller):
+class P2Controller(Controller):
     """
     A controller for player two, inheriting from the base controller class.
     Handles user input specific to player two using arrow keys.
