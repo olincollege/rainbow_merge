@@ -20,16 +20,28 @@ class Animal(ABC):
         self.accel = accel
         self.state = "hanging"
 
+        # The physics components
+        self.body = pymunk.Body(mass=1, moment=pymunk.moment_for_circle(1, 0, radius))
+        self.shape = pymunk.Circle(self.body, radius)
+        self.shape.friction = 0.5
+        self.shape.elasticity = 0.8
+        self.position = int(position[0]), int(position[1])
+        self.body.position = self.position
 
-# Folder for visuals (.png files)
-# Ensure that the 'animals' folder is in the same directory as this file and contains the .png files for each animal.
+    def draw(self, window):
+        # Function to create the sprite from this abstract animal class
+        sprite_x, sprite_y = int(self.body.position.x), int(self.body.position.y)
+        window.draw_lr(self.sprite, sprite_x, sprite_y, 0)
+
+
+# Make sure that the 'animals' folder is in the same directory as this file and contains the .png files for each animal.
 
 
 class bee(Animal):
 
     radius = 25
     point_value = 5
-    sprite = "visuals/bee.jpg"
+    sprite = "animals/bee.jpg"
     position = (20, 30)
     speed = 0
 
