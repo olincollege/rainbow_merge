@@ -22,7 +22,6 @@ class Subgame:
         self.can_use_superpower = False
         self.drop_speed = 0.5  # drops per second
         self.current_animal = random.randrange(3) + 1  # random animal 1-4
-        self.next_animal = random.randrange(3) + 1  # random animal 1-4
         self.timer = pygame.time.Clock()  #
         self.initialize_board()
         self.draw_board(self.subgame_board)
