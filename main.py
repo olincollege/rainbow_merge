@@ -15,10 +15,9 @@ def main():
     player1 = P1Controller()
     animals = pygame.image.load("visuals/bee.jpg")
     subgame = Subgame()
+    clock = pygame.time.Clock
 
     while True:
-
-        pygame.display.update()
 
         # draw background
         subgame.draw_board(subgame.subgame_board)
@@ -46,8 +45,7 @@ def main():
         # Draw the game elements
         subgame.draw_board(subgame.subgame_board)
         y.draw_moving_animals(subgame.screen, animals)
-
-        pygame.display.update()
+        clock.tick(60)
 
 
 main()

@@ -19,6 +19,7 @@ class Animal(ABC):
         self.speed = speed
         self.accel = accel
         self.state = "hanging"
+        self.color = pygame.Color(255, 0, 0)
 
 
 # Folder for visuals (.png files)

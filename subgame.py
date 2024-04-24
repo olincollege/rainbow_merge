@@ -25,6 +25,19 @@ class Subgame:
         self.timer = pygame.time.Clock()  #
         self.initialize_board()
         self.draw_board(self.subgame_board)
+        self.animal_positions = {
+            0: (36, 50),
+            1: (86, 50),
+            2: (122, 50),
+            3: (158, 50),
+            4: (194, 50),
+            5: (230, 50),
+            6: (266, 50),
+            7: (302, 50),
+            8: (338, 50),
+            9: (374, 50),
+            10: (410, 50),
+        }
 
     def initialize_board(self):
         """Creates a blank screen on which the board is drawn."""
@@ -89,6 +102,7 @@ class moving_animals:
             # Logic for dropping something
             pass
 
-    def draw_moving_animals(self, screen, animal_image):
+    def draw_moving_animals(self, screen, animal):
         pos = self.animal_positions[self.player_position]
-        screen.blit(animal_image, pos)
+        # screen.blit(animal_image, pos)
+        pygame.draw.circle(screen, pygame.Color(255, 0, 0), pos, 10)
