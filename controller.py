@@ -58,6 +58,7 @@ class P1Controller(Controller):
             str: A string representing the player's action (left, right, drop) or 'no input' if no relevant keys are pressed.
         """
         keys = pygame.key.get_pressed()
+
         if keys[pygame.K_a]:
             return "left"
         elif keys[pygame.K_d]:

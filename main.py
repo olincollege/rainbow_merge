@@ -1,29 +1,20 @@
 import sys
 import pygame
 from pygame.locals import *
-<<<<<<< HEAD
-import subgame
-import controller
-=======
 from subgame import Subgame
+from subgame import moving_animals
 from controller import P1Controller
->>>>>>> 17a13b673e67cd8179e4a11ea7b8307baae516d4
 
 
 def main():
     pygame.init()
 
-<<<<<<< HEAD
-    x = subgame.Subgame()
-    y = subgame.moving_animals(
+    y = moving_animals(
         player_num=1
     )  # Assuming player_num is passed during initialization
-    player1 = controller.P1Controller
+    player1 = P1Controller()
     animals = pygame.image.load("visuals/bee.jpg")
-=======
     subgame = Subgame()
-    controller = P1Controller()
->>>>>>> 17a13b673e67cd8179e4a11ea7b8307baae516d4
 
     while True:
 
@@ -47,19 +38,16 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-<<<<<<< HEAD
                 break
-
-        player1_input = player1.get_user_input
-        y.move_animal(player1_input)
+            if event.type == pygame.KEYDOWN:
+                player1_input = player1.get_user_input()
+                y.move_animal(player1_input)
 
         # Draw the game elements
-        x.draw_board(x.subgame_board)
-        y.draw_moving_animals(x.screen, animals)
+        subgame.draw_board(subgame.subgame_board)
+        y.draw_moving_animals(subgame.screen, animals)
 
         pygame.display.update()
-=======
->>>>>>> 17a13b673e67cd8179e4a11ea7b8307baae516d4
 
 
 main()

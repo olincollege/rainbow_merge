@@ -53,17 +53,17 @@ class Subgame:
 
 class moving_animals:
     animal_positions = {
-        0: (86, 100),
-        1: (122, 100),
-        2: (158, 100),
-        3: (194, 100),
-        4: (230, 100),
-        5: (266, 100),
-        6: (302, 100),
-        7: (338, 100),
-        8: (374, 100),
-        9: (410, 100),
-        10: (446, 100),
+        0: (36, 50),
+        1: (86, 50),
+        2: (122, 50),
+        3: (158, 50),
+        4: (194, 50),
+        5: (230, 50),
+        6: (266, 50),
+        7: (302, 50),
+        8: (338, 50),
+        9: (374, 50),
+        10: (410, 50),
     }
 
     def __init__(self, player_num):
@@ -75,15 +75,14 @@ class moving_animals:
         self.player_position = 6
 
     def move_animal(self, player_input):
-        print(player_input)
         if player_input == "right":
-            if self.player_position > 11:
+            if self.player_position == 10:
                 self.player_position = 0
             else:
                 self.player_position += 1
         elif player_input == "left":
-            if self.player_position < 0:
-                self.player_position = 11
+            if self.player_position == 0:
+                self.player_position = 10
             else:
                 self.player_position -= 1
         elif player_input == "drop":
