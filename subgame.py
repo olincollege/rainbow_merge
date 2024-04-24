@@ -7,6 +7,8 @@ from pygame.locals import *
 # import controller
 
 from board import Board
+from controller import P1Controller
+from controller import P2Controller
 
 
 class Subgame:
@@ -48,3 +50,47 @@ class Subgame:
 
     def pushes(button):
         pass
+
+
+class moving_animals:
+    animal_positions = {
+        0: (86, 100),
+        1: (122, 100),
+        2: (158, 100),
+        3: (194, 100),
+        4: (230, 100),
+        5: (266, 100),
+        6: (302, 100),
+        7: (338, 100),
+        8: (374, 100),
+        9: (410, 100),
+        10: (446, 100),
+    }
+
+    def __init__(self, player_num):
+        self.player_num = player_num
+        if player_num == 1:
+            self.controller = P1Controller()
+        elif player_num == 2:
+            self.controller = P2Controller()
+        self.player_position = 6
+
+    def move_animal(self, player_input):
+        print(player_input)
+        if player_input == "right":
+            if self.player_position > 11:
+                self.player_position = 0
+            else:
+                self.player_position += 1
+        elif player_input == "left":
+            if self.player_position < 0:
+                self.player_position = 11
+            else:
+                self.player_position -= 1
+        elif player_input == "drop":
+            # Logic for dropping something
+            pass
+
+    def draw_moving_animals(self, screen, animal_image):
+        pos = self.animal_positions[self.player_position]
+        screen.blit(animal_image, pos)
