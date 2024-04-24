@@ -7,6 +7,8 @@ from pygame.locals import *
 # import controller
 
 from board import Board
+import math
+import animals
 
 
 class Subgame:
@@ -46,5 +48,40 @@ class Subgame:
     def end_subgame(self):
         pass
 
-    def pushes(button):
+    def pushes(self, button):
         pass
+
+    def is_touching_animal(self, animal1, animal2):
+        """
+        Determines whether two animals, represented as circles, are touching or overlapping.
+
+        Each animal is expected to have a 'position' attribute and a 'radius' attribute.
+        The 'position' attribute should be a tuple representing the (x, y) coordinates of the animal's center.
+        The 'radius' attribute should be a number representing the radius of the circle that outlines the animal.
+
+        Parameters:
+        - animal1 (object): The first animal object with attributes 'position' and 'radius'.
+        - animal2 (object): The second animal object with attributes 'position' and 'radius'.
+
+        Returns:
+        - bool: True if the animals are touching or overlapping, otherwise False.
+        """
+        # Extract position and radius from both animals
+        x1 = animal1.position[0]
+        y1 = animal1.position[1]
+        r1 = animal1.radius
+        x2 = animal2.position[0]
+        y2 = animal2.position[1]
+        r2 = animal2.radius
+
+        # Calculate the distance between the centers of the two animals
+        distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+        # Calculate the sum of the radii
+        radius_sum = r1 + r2
+
+        # Check for collision
+        if distance <= radius_sum:
+            return True
+        else:
+            return False
