@@ -1,112 +1,102 @@
 import pygame
 from abc import ABC
+import random
+from board import Board
 
 
-class Animal(ABC):
-    def __init__(
-        self,
-        radius=None,
-        point_value=None,
-        sprite=None,
-        position=None,
-        speed=None,
-        accel=None,
-    ):
-        self.radius = radius
-        self.point_value = point_value
-        self.sprite = pygame.image.load(sprite).convert_alpha()
-        self.position = position
-        self.speed = speed
-        self.accel = accel
-        self.state = "hanging"
-        self.color = pygame.Color(255, 0, 0)
+class Block:
+    def __init__(self, x_position, y_position, n=0):
+        self.colors = [
+            (245, 0, 0),
+            (250, 100, 100),
+            (150, 20, 250),
+            (250, 210, 10),
+            (250, 150, 0),
+            (245, 0, 0),
+            (250, 250, 100),
+            (255, 180, 180),
+            (255, 255, 0),
+            (100, 235, 10),
+            (0, 185, 0),
+        ]
+        self.n = n
+        self.color = self.colors[self.n]
+        self.possible_y_positions = [220, 280, 340, 400, 460, 520, 580, 640]
+        self.x_position = x_position
+        self.y_position = y_position
+        self.speed = 3
 
-        # The physics components
-        self.body = pymunk.Body(mass=1, moment=pymunk.moment_for_circle(1, 0, radius))
-        self.shape = pymunk.Circle(self.body, radius)
-        self.shape.friction = 0.5
-        self.shape.elasticity = 0.8
-        self.position = int(position[0]), int(position[1])
-        self.body.position = self.position
-
-    def draw(self, window):
-        # Function to create the sprite from this abstract animal class
-        sprite_x, sprite_y = int(self.body.position.x), int(self.body.position.y)
-        window.draw_lr(self.sprite, sprite_x, sprite_y, 0)
-
-    def update_speed
-
-
-# Make sure that the 'animals' folder is in the same directory as this file and contains the .png files for each animal.
-
-
-class bee(Animal):
-
-    radius = 25
-    point_value = 5
-    sprite = "animals/bee.jpg"
-    position = (20, 30)
-    speed = 0
-
-    def __init__(self, radius, point_value, sprite, position, speed):
-        super().__init__(radius, point_value, sprite, position, speed)
-
-
-class chick(Animal):
-    def __init__(self):
-        super().__init__(
-            radius=30,
-            point_value=10,
-            sprite="animals/chick.jpg",
-            position=(0, 0),
-            speed=1,
-            accel=0.1,
+    def draw(self, screen):
+        pygame.draw.rect(
+            screen, self.color, pygame.Rect(self.x_position, self.y_position, 60, 60)
         )
 
 
-class lizard(Animal):
-    def __init__(self):
-        super().__init__(
-            radius=35,
-            point_value=20,
-            sprite="animals/lizard.jpg",
-            position=(0, 0),
-            speed=1,
-            accel=0.1,
-        )
+class moving_animals:
+    def __init__(self, player_num, controller):
+        self.colors = [
+            (245, 0, 0),
+            (250, 100, 100),
+            (150, 20, 250),
+            (250, 210, 10),
+            (250, 150, 0),
+            (245, 0, 0),
+            (250, 250, 100),
+            (255, 180, 180),
+            (255, 255, 0),
+            (100, 235, 10),
+            (0, 185, 0),
+        ]
+        self.n = random.randrange(4)
+        self.possible_x_positions = [10, 70, 130, 190, 250, 310, 370, 430]
+        self.possible_y_positions = [220, 280, 340, 400, 460, 520, 580, 640]
+        self.color = self.colors[self.n]
+        self.animal_positions = {
+            0: (36, 50),
+            1: (86, 50),
+            2: (122, 50),
+            3: (158, 50),
+            4: (194, 50),
+            5: (230, 50),
+            6: (266, 50),
+            7: (302, 50),
+            8: (338, 50),
+            9: (374, 50),
+            10: (410, 50),
+        }
+        self.player_num = player_num
+        if player_num == 1:
+            self.controller = controller
+        self.player_position = 6
 
+    def move_animal(self, player_input, blocks_list):
+        if player_input == "right":
+            if self.player_position == 7:
+                self.player_position = 0
+            else:
+                self.player_position += 1
+        elif player_input == "left":
+            if self.player_position == 0:
+                self.player_position = 7
+            else:
+                self.player_position -= 1
+        elif player_input == "drop":
+            # check to find lowest possible row at which block can exist
+            row_to_place = 7
+            while not blocks_list[self.player_position][row_to_place] == " ":
+                row_to_place -= 1
+                if row_to_place < 0:
+                    break
+            block = Block(
+                self.possible_x_positions[self.player_position],
+                self.possible_y_positions[row_to_place],
+                n=self.n,
+            )
+            blocks_list[self.player_position][row_to_place] = block
+            print(blocks_list)
+            self.n = random.randrange(4)
+            self.color = self.colors[self.n]
 
-class sloth(Animal):
-    def __init__(self):
-        super().__init__(
-            radius=40,
-            point_value=40,
-            sprite="animals/sloth.jpg",
-            position=(0, 0),
-            speed=1,
-            accel=0.1,
-        )
-
-
-class penguin(Animal):
-    def __init__(self):
-        super().__init__(
-            radius=45,
-            point_value=80,
-            sprite="animals/penguin.jpg",
-            position=(0, 0),
-            speed=1,
-            accel=0.1,
-        )
-
-
-class pig(Animal):
-    def __init__(self):
-        super().__init__(
-            radius=50,
-            point_value=160,
-            sprite="animals/sloth.jpg",
-            position=(0, 0),
-            speed=1,
-            accel=0.1,
-        )
+    def draw_moving_animals(self, screen):
+        pos = self.possible_x_positions[self.player_position]
+        pygame.draw.rect(screen, self.color, pygame.Rect(pos, 10, 60, 60))

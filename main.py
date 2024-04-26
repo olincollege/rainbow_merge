@@ -2,32 +2,51 @@ import sys
 import pygame
 from pygame.locals import *
 from subgame import Subgame
-from subgame import moving_animals
+from animals import moving_animals, Block
 from controller import P1Controller
 
 
 def main():
     pygame.init()
 
+    controller = P1Controller()
     y = moving_animals(
-        player_num=1
+        1, controller
     )  # Assuming player_num is passed during initialization
+
     player1 = P1Controller()
-    animals = pygame.image.load("animals/bee.jpg")
     subgame = Subgame()
+    # blocks_list = [[" "] * 8] * 8
+    blocks_list = [
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " "],
+    ]
+    test_block = Block(800, 800)  # Animal to test class against
 
     while True:
 
         # draw background
         subgame.draw_board(subgame.subgame_board)
 
-        # draw all animals
-
         # check for collisions with other animals
 
         # move dropped animals
 
         # move hanging animal
+
+        # Draw the game elements
+        y.draw_moving_animals(subgame.screen)
+
+        for x_p in range(8):
+            for y_p in range(8):
+                if type(blocks_list[x_p][y_p]) == type(test_block):
+                    blocks_list[x_p][y_p].draw(subgame.screen)
 
         # refresh window
         pygame.display.update()
@@ -38,10 +57,7 @@ def main():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 player1_input = player1.get_user_input()
-                y.move_animal(player1_input)
-
-        # Draw the game elements
-        y.draw_moving_animals(subgame.screen, animals)
+                y.move_animal(player1_input, blocks_list)
 
 
 main()
