@@ -34,6 +34,8 @@ class Animal(ABC):
         sprite_x, sprite_y = int(self.body.position.x), int(self.body.position.y)
         window.draw_lr(self.sprite, sprite_x, sprite_y, 0)
 
+    def update_speed
+
 
 # Make sure that the 'animals' folder is in the same directory as this file and contains the .png files for each animal.
 

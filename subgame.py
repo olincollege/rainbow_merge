@@ -50,7 +50,7 @@ class Subgame:
     def draw_board(self, board):
         """Draws the board."""
         # Draw ground
-        self.screen.blit(pygame.image.load("visuals/ground.jpg"), board.ground_pos)
+        self.screen.blit(pygame.image.load("animals/ground.jpg"), board.ground_pos)
         # Draw failure line
         pygame.draw.rect(
             self.screen,
@@ -166,5 +166,5 @@ class moving_animals:
 
     def draw_moving_animals(self, screen, animal):
         pos = self.animal_positions[self.player_position]
-        # screen.blit(animal_image, pos)
-        pygame.draw.circle(screen, pygame.Color(255, 0, 0), pos, 10)
+        screen.blit(animal, pos)
+        # pygame.draw.circle(screen, pygame.Color(255, 0, 0), pos, 10)

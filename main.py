@@ -13,9 +13,8 @@ def main():
         player_num=1
     )  # Assuming player_num is passed during initialization
     player1 = P1Controller()
-    animals = pygame.image.load("visuals/bee.jpg")
+    animals = pygame.image.load("animals/bee.jpg")
     subgame = Subgame()
-    clock = pygame.time.Clock
 
     while True:
 
@@ -37,15 +36,12 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-                break
             if event.type == pygame.KEYDOWN:
                 player1_input = player1.get_user_input()
                 y.move_animal(player1_input)
 
         # Draw the game elements
-        subgame.draw_board(subgame.subgame_board)
         y.draw_moving_animals(subgame.screen, animals)
-        clock.tick(60)
 
 
 main()

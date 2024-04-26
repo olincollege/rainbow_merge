@@ -7,7 +7,7 @@ class Board:
     def __init__(self):
         self.ground_pos = (0, 700)
         self.max_height = 100
-        self._ground = "visuals/ground.jpg"
+        self._ground = "animals/ground.jpg"
 
     @property
     def get_ground(self):
