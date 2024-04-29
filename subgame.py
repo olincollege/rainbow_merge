@@ -7,9 +7,6 @@ from pygame.locals import *
 # import controller
 
 from board import Board
-from controller import P1Controller
-from controller import P2Controller
-import math
 
 
 class Subgame:
@@ -36,7 +33,6 @@ class Subgame:
             9: (374, 50),
             10: (410, 50),
         }
-        self.blocks = []
 
     def initialize_board(self):
         """Creates a blank screen on which the board is drawn."""

@@ -2,15 +2,16 @@ import sys
 import pygame
 from pygame.locals import *
 from subgame import Subgame
-from animals import moving_animals, Block
+from animals import MovingAnimal, Block
 from controller import P1Controller
+import copy
 
 
 def main():
     pygame.init()
 
     controller = P1Controller()
-    y = moving_animals(
+    moving_animal = MovingAnimal(
         1, controller
     )  # Assuming player_num is passed during initialization
 
@@ -26,7 +27,7 @@ def main():
         [" ", " ", " ", " ", " ", " ", " ", " "],
         [" ", " ", " ", " ", " ", " ", " ", " "],
         [" ", " ", " ", " ", " ", " ", " ", " "],
-    ]
+    ]  # list containing all instances of blocks and their positions. each list represents an x-position, and each entry in a sublist represents a y-position.
     test_block = Block(800, 800)  # Animal to test class against
 
     while True:
@@ -41,8 +42,73 @@ def main():
         # move hanging animal
 
         # Draw the game elements
-        y.draw_moving_animals(subgame.screen)
+        moving_animal.draw_moving_animals(subgame.screen)
 
+        # Handle vertical merges
+        while True:
+            pre_list = copy.deepcopy(
+                blocks_list
+            )  # set this to check if any merges occurred
+            # check list for Block instances
+            broke = False
+            for x_p in range(8):
+                for y_p in range(8):
+                    # if there is a block at any point, perform any applicable merges
+                    if isinstance(blocks_list[x_p][y_p], Block):
+                        a = blocks_list[x_p][y_p].vertical_merge(x_p, y_p, blocks_list)
+                        if a:
+                            broke = True  # use this statement to ensure we break out of both for loops
+                            break
+                if broke is True:  # break out of second for loop
+                    break
+
+            structure_changed = False  # variable to check whether any merges occurred
+            for x_p in range(8):
+                for y_p in range(8):
+                    if type(pre_list[x_p][y_p]) != type(
+                        blocks_list[x_p][y_p]
+                    ):  # have to use type check instead of equality because block ID is not the same every time
+                        structure_changed = True
+
+            if structure_changed == False:
+                break  # if no merges occurred, we are good to continue on
+
+            print(
+                "abc"
+            )  # check to see if it the pre_list and post_list are not the same
+
+        # Handle Horizontal Merges
+        while True:
+            pre_list = copy.deepcopy(
+                blocks_list
+            )  # set this to check if any merges occurred
+            # check list for Block instances
+            for x_p in range(8):
+                for y_p in range(8):
+                    # if there is a block at any point, perform any applicable merges
+                    if isinstance(blocks_list[x_p][y_p], Block):
+                        b = blocks_list[x_p][y_p].horizontal_merge(
+                            x_p, y_p, blocks_list
+                        )
+                        if b:
+                            broke = True  # use this statement to ensure we break out of both for loops
+                            break
+                if broke is True:  # break out of second for loop
+                    break
+
+            structure_changed = False  # variable to check whether any merges occurred
+            for x_p in range(8):
+                for y_p in range(8):
+                    if type(pre_list[x_p][y_p]) != type(
+                        blocks_list[x_p][y_p]
+                    ):  # have to use type check instead of equality because block ID is not the same every time
+                        structure_changed = True
+
+            if structure_changed == False:
+                break  # if no merges occurred, we are good to continue on
+            print("horiz")
+
+        # draw elements
         for x_p in range(8):
             for y_p in range(8):
                 if type(blocks_list[x_p][y_p]) == type(test_block):
@@ -57,7 +123,7 @@ def main():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 player1_input = player1.get_user_input()
-                y.move_animal(player1_input, blocks_list)
+                moving_animal.move_animal(player1_input, blocks_list)
 
 
 main()

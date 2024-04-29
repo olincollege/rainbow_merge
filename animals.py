@@ -67,6 +67,8 @@ class Block:
                     )
                     # kill current block again (to ensure no weird things happened during merge)
                     blocks_list[x_position][y_position] = " "
+                    return True
+        return False
 
     def horizontal_merge(
         self,
@@ -100,10 +102,12 @@ class Block:
                         n=self.n + 1,
                     )
                     # kill current block again (to ensure no weird things happened during merge)
-                    blocks_list[x_position][y_position] = " "
+                    blocks_list[x_position + 1][y_position] = " "
+                    return True
+        return False
 
 
-class moving_animals:
+class MovingAnimal:
     def __init__(self, player_num, controller):
         self.colors = [
             (245, 0, 0),
