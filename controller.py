@@ -68,37 +68,3 @@ class P1Controller(Controller):
         elif keys[pygame.K_F2]:
             return "settings"
         return "no input"  # Default return when no relevant keys are pressed
-
-
-class P2Controller(Controller):
-    """
-    A controller for player two, inheriting from the base controller class.
-    Handles user input specific to player two using arrow keys.
-    """
-
-    def __init__(self):
-        """
-        Initializes the p2_controller with specific keyboard controls for player two.
-        """
-        self.keyboard_controls = [
-            "LEFT",
-            "RIGHT",
-            "UP",
-        ]  # Controls for player 2 using arrow keys
-
-    def get_user_input(self):
-        """
-        Detects and returns the current user input based on the predefined arrow keys.
-        Returns:
-            str: A string representing the player's action (left, right, drop) or 'no input' if no relevant keys are pressed.
-        """
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            return "left"
-        elif keys[pygame.K_RIGHT]:
-            return "right"
-        elif keys[pygame.K_UP]:
-            return "drop"
-        elif keys[pygame.K_F2]:
-            return "settings"
-        return "no input"  # Default return when no relevant keys are pressed

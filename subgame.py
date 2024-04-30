@@ -51,3 +51,9 @@ class Subgame:
             pygame.Color(255, 0, 0),
             pygame.Rect(0, board.max_height, 500, 1),
         )
+
+    def display_score(self, score, screen):
+        """Draws the score on the board."""
+        score_font = pygame.font.SysFont("Comic Sans MS", 30)
+        text_surface = score_font.render(f"Score: {score}", True, (0, 0, 0))
+        screen.blit(text_surface, (400, 105))

@@ -9,14 +9,16 @@ import copy
 
 def main():
     pygame.init()
+    pygame.font.init()
 
     controller = P1Controller()
     moving_animal = MovingAnimal(
         1, controller
     )  # Assuming player_num is passed during initialization
-
     player1 = P1Controller()
     subgame = Subgame()
+    clock = pygame.time.Clock()
+
     # blocks_list = [[" "] * 8] * 8
     blocks_list = [
         [" ", " ", " ", " ", " ", " ", " ", " "],
@@ -30,19 +32,16 @@ def main():
     ]  # list containing all instances of blocks and their positions. each list represents an x-position, and each entry in a sublist represents a y-position.
     test_block = Block(800, 800)  # Animal to test class against
 
+    score = 0  # initialize score
     while True:
-
-        # draw background
-        subgame.draw_board(subgame.subgame_board)
-
-        # check for collisions with other animals
-
-        # move dropped animals
-
-        # move hanging animal
-
-        # Draw the game elements
-        moving_animal.draw_moving_animals(subgame.screen)
+        # Handle game events
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                player1_input = player1.get_user_input()
+                moving_animal.move_animal(player1_input, blocks_list)
 
         # Handle vertical merges
         while True:
@@ -73,9 +72,7 @@ def main():
             if structure_changed == False:
                 break  # if no merges occurred, we are good to continue on
 
-            print(
-                "abc"
-            )  # check to see if it the pre_list and post_list are not the same
+            score += 1  # scoring happens whenever a merge occurs
 
         # Handle Horizontal Merges
         while True:
@@ -106,24 +103,53 @@ def main():
 
             if structure_changed == False:
                 break  # if no merges occurred, we are good to continue on
-            print("horiz")
+            score += 1  # scoring happens whenever a merge occurs
 
-        # draw elements
+        # Handle falls
+        while True:
+            pre_list = copy.deepcopy(
+                blocks_list
+            )  # set this to check if any falls occurred
+            broke = False  # use this statement to ensure we break out of both for loops
+            for x_p in range(8):
+                for y_p in range(8):
+                    # if there is a block at any point, perform any applicable merges
+                    if isinstance(blocks_list[x_p][y_p], Block):
+                        a = blocks_list[x_p][y_p].fall(x_p, y_p, blocks_list)
+                        if a:
+                            broke = True  # use this statement to ensure we break out of both for loops
+                            break
+                if broke is True:  # break out of second for loop
+                    break
+
+            structure_changed = False  # variable to check whether any merges occurred
+            for x_p in range(8):
+                for y_p in range(8):
+                    if type(pre_list[x_p][y_p]) != type(
+                        blocks_list[x_p][y_p]
+                    ):  # have to use type check instead of equality because block ID is not the same every time
+                        structure_changed = True
+
+            if structure_changed == False:
+                break  # if no merges occurred, we are good to continue on
+
+        # draw game elements
+        subgame.draw_board(subgame.subgame_board)
+        subgame.display_score(score, subgame.screen)
+        moving_animal.draw_moving_animals(subgame.screen)  # hanging block
         for x_p in range(8):
             for y_p in range(8):
                 if type(blocks_list[x_p][y_p]) == type(test_block):
-                    blocks_list[x_p][y_p].draw(subgame.screen)
+                    blocks_list[x_p][y_p].draw(
+                        subgame.screen
+                    )  # draw every dropped block
 
         # refresh window
         pygame.display.update()
+        subgame.screen.fill(subgame.background_color)
 
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                player1_input = player1.get_user_input()
-                moving_animal.move_animal(player1_input, blocks_list)
+        # limit the framerate
+        clock.tick(60)
 
 
 main()

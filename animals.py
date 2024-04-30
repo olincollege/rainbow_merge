@@ -7,20 +7,25 @@ from board import Board
 class Block:
     def __init__(self, x_position, y_position, n=0):
         self.colors = [
-            (245, 0, 0),
-            (250, 100, 100),
-            (150, 20, 250),
-            (250, 210, 10),
-            (250, 150, 0),
-            (245, 245, 190),
-            (250, 250, 100),
-            (255, 180, 180),
-            (255, 255, 0),
-            (100, 235, 10),
-            (0, 185, 0),
+            (235, 64, 52),
+            (235, 116, 52),
+            (235, 186, 52),
+            (232, 235, 52),
+            (198, 235, 52),
+            (143, 235, 52),
+            (52, 235, 61),
+            (52, 235, 153),
+            (52, 235, 195),
+            (52, 201, 235),
+            (52, 150, 235),
+            (52, 101, 235),
+            (128, 52, 235),
+            (192, 52, 235),
+            (235, 52, 226),
+            (235, 52, 156),
         ]
         self.n = n
-        self.color = self.colors[self.n]
+        self.color = self.colors[self.n % 16]
         self.possible_x_positions = [10, 70, 130, 190, 250, 310, 370, 430]
         self.possible_y_positions = [220, 280, 340, 400, 460, 520, 580, 640]
         self.x_position = x_position
@@ -70,6 +75,31 @@ class Block:
                     return True
         return False
 
+    def fall(
+        self,
+        x_position,
+        y_position,
+        blocks_list,
+    ):
+        """Moves the block to the lowest possible space that it can fill."""
+        # vertical merges
+        if y_position < 7:
+            # check if there is a block below the current one
+            if isinstance(blocks_list[x_position][y_position], Block) and isinstance(
+                blocks_list[x_position][y_position + 1], str
+            ):
+                blocks_list[x_position][y_position] = " "
+                # update merged block
+                blocks_list[x_position][y_position + 1] = Block(
+                    self.possible_x_positions[x_position],
+                    self.possible_y_positions[y_position + 1],
+                    n=self.n,
+                )
+                # kill current block again (to ensure no weird things happened during merge)
+                blocks_list[x_position][y_position] = " "
+                return True
+        return False
+
     def horizontal_merge(
         self,
         x_position,
@@ -110,17 +140,22 @@ class Block:
 class MovingAnimal:
     def __init__(self, player_num, controller):
         self.colors = [
-            (245, 0, 0),
-            (250, 100, 100),
-            (150, 20, 250),
-            (250, 210, 10),
-            (250, 150, 0),
-            (245, 0, 0),
-            (250, 250, 100),
-            (255, 180, 180),
-            (255, 255, 0),
-            (100, 235, 10),
-            (0, 185, 0),
+            (235, 64, 52),
+            (235, 116, 52),
+            (235, 186, 52),
+            (232, 235, 52),
+            (198, 235, 52),
+            (143, 235, 52),
+            (52, 235, 61),
+            (52, 235, 153),
+            (52, 235, 195),
+            (52, 201, 235),
+            (52, 150, 235),
+            (52, 101, 235),
+            (128, 52, 235),
+            (192, 52, 235),
+            (235, 52, 226),
+            (235, 52, 156),
         ]
         self.n = random.randrange(4)
         self.possible_x_positions = [10, 70, 130, 190, 250, 310, 370, 430]
