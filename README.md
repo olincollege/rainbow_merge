@@ -1,1 +1,1 @@
-# animal_merger
+# Rainbow Merge
