@@ -34,47 +34,47 @@ def main():
 
     color_names = {
         # B50303
-        (181, 3, 3): "Dark Red",
-        # F26418
-        (242, 100, 24): "Orange",
-        # F89012
-        (248, 144, 18): "Light Orange",
-        # F9C74F
-        (249, 199, 79): "Yellow",
+        (181, 3, 3): "Red",
+        # E55A10
+        (229, 90, 16): "Orange",
+        # F9A339
+        (249, 163, 57): "Light Orange",
+        # FAE46A
+        (250, 228, 106): "Yellow",
         # 90BE6D
-        (144, 190, 109): "Light Green",
+        (144, 190, 109): "Green",
         # 43AA8B
-        (67, 170, 139): "Green",
-        # 4D908E
-        (77, 144, 142): "Green Blue",
+        (67, 170, 139): "Green Blue",
         # 577590
-        (87, 117, 144): "Blue",
+        (87, 117, 144): "Grey Blue",
         # 277DA1
-        (39, 125, 161): "Dark Blue",
+        (39, 125, 161): "Blue",
         # 8358BB
         (131, 88, 187): "Purple",
+        # 070D0D
+        (7, 13, 13): "Black",
     }
     color_scores = {
         # B50303
-        "Dark Red": 1,
-        # F26418
+        "Red": 1,
+        # E55A10
         "Orange": 2,
-        # F89012
+        # F9A339
         "Light Orange": 3,
-        # F9C74F
+        # FAE46A
         "Yellow": 4,
         # 90BE6D
-        "Light Green": 5,
+        "Green": 5,
         # 43AA8B
-        "Green": 6,
-        # 4D908E
-        "Green Blue": 7,
+        "Green Blue": 6,
         # 577590
-        "Blue": 8,
+        "Grey Blue": 7,
         # 277DA1
-        "Dark Blue": 9,
+        "Blue": 8,
         # 8358BB
-        "Purple": 10,
+        "Purple": 9,
+        # 070D0D
+        "Black": 10,
     }
     score = 0  # initialize score
     while True:
