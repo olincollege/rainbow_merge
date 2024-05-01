@@ -1,11 +1,8 @@
 import copy
 import pytest
 from rainbow_merge_game import (
-    check_structure_changed,
     handle_merges,
     handle_falls,
-    check_first_column,
-    check_for_black,
 )
 
 # Sample game board for testing
