@@ -148,24 +148,35 @@ def main():
             score += color_scores.get(
                 color_names.get(merged_block.color), 0
             )  # Increment score based on merged block's color
-
+        #test 
         # Handle falls
         fallen_block = handle_falls(blocks_list)
         if isinstance(fallen_block, Block):
             score += color_scores.get(
                 color_names.get(merged_block.color), 0
             )  # Increment score based on merged block's color
-
+        
         # draw game elements
         subgame.draw_board(subgame.subgame_board)
         subgame.display_score(score, subgame.screen)
         moving_animal.draw_moving_animals(subgame.screen)  # hanging block
+
+        def end_game():
+
+        for x_p in range(8):
+            for y_p in range(8):
+                if type(blocks_list[x_p][y_p]) == type(test_block):
+                    if blocks_list[x_p][y_p].death == True:
+                        end_game()
+
         for x_p in range(8):
             for y_p in range(8):
                 if type(blocks_list[x_p][y_p]) == type(test_block):
                     blocks_list[x_p][y_p].draw(
                         subgame.screen
                     )  # draw every dropped block
+        
+        
 
         # refresh window
         pygame.display.update()
