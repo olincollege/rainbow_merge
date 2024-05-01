@@ -173,17 +173,17 @@ class MovingAnimal:
         self.possible_y_positions = [220, 280, 340, 400, 460, 520, 580, 640]
         self.color = self.colors[self.n]
         self.animal_positions = {
-            0: (36, 50),
-            1: (86, 50),
-            2: (122, 50),
-            3: (158, 50),
-            4: (194, 50),
-            5: (230, 50),
-            6: (266, 50),
-            7: (302, 50),
-            8: (338, 50),
-            9: (374, 50),
-            10: (410, 50),
+            0: (36, 100),
+            1: (86, 300),
+            2: (122, 300),
+            3: (158, 300),
+            4: (194, 200),
+            5: (230, 200),
+            6: (266, 200),
+            7: (302, 30),
+            8: (338, 30),
+            9: (374, 30),
+            10: (410, 100),
         }
         self.player_num = player_num
         if player_num == 1:
@@ -221,4 +221,4 @@ class MovingAnimal:
 
     def draw_moving_animals(self, screen):
         pos = self.possible_x_positions[self.player_position]
-        pygame.draw.rect(screen, self.color, pygame.Rect(pos, 10, 60, 60))
+        pygame.draw.rect(screen, self.color, pygame.Rect(pos, 30, 60, 60))
