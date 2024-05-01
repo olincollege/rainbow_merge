@@ -1,13 +1,23 @@
 import sys
 import pygame
 from pygame.locals import *
-from subgame import Subgame
-from animals import MovingAnimal, Block
-from controller import P1Controller
+from rainbow_merge_view import View
+from rainbow_merge_block import MovingBlock, Block
+from rainbow_merge_controller import P1Controller
 import copy
 
 
 def check_structure_changed(pre_list, blocks_list):
+    """
+    Check if the structure of the game board has changed after merges or falls.
+
+    Args:
+        pre_list (list): The previous state of the game board.
+        blocks_list (list): The current state of the game board.
+
+    Returns:
+        bool: True if the structure has changed, False otherwise.
+    """
     # Check if structure has changed after merges or falls
     for x_p in range(8):
         for y_p in range(8):
@@ -17,6 +27,16 @@ def check_structure_changed(pre_list, blocks_list):
 
 
 def handle_merges(blocks_list, merge_function):
+    """
+    Handle merges of blocks on the game board.
+
+    Args:
+        blocks_list (list): The current state of the game board.
+        merge_function (function): The merge function to apply.
+
+    Returns:
+        Block or None: The merged Block object if a merge occurred, None otherwise.
+    """
     while True:
         pre_list = copy.deepcopy(blocks_list)
         for x_p in range(8):
@@ -31,6 +51,15 @@ def handle_merges(blocks_list, merge_function):
 
 
 def handle_falls(blocks_list):
+    """
+    Handle falls of blocks on the game board.
+
+    Args:
+        blocks_list (list): The current state of the game board.
+
+    Returns:
+        Block or None: The fallen Block object if a fall occurred, None otherwise.
+    """
     while True:
         pre_list = copy.deepcopy(blocks_list)
         for x_p in range(8):
@@ -45,6 +74,15 @@ def handle_falls(blocks_list):
 
 
 def check_first_column(blocks_list):
+    """
+    Check if the first column of the game board contains any blocks.
+
+    Args:
+        blocks_list (list): The current state of the game board.
+
+    Returns:
+        bool: True if the first column contains blocks, False otherwise.
+    """
     for row in blocks_list:
         if isinstance(row[0], Block):
             return True
@@ -52,23 +90,42 @@ def check_first_column(blocks_list):
 
 
 def check_for_black(blocks_list):
+    """
+    Check if a black block exists on the game board.
+
+    Args:
+        blocks_list (list): The current state of the game board.
+
+    Returns:
+        bool: True if a black block exists, False otherwise.
+    """
     for row in blocks_list:
         for block in row:
-            if isinstance(block, Block) and block.color == "black":
+            if isinstance(block, Block) and block.color == (7, 13, 13):
                 return True
     return False
 
 
 def win_screen(screen, score):
+    """
+    Display the win screen with the final score.
+
+    Args:
+        screen (pygame.Surface): The game screen.
+        score (int): The final score.
+    """
     font = pygame.font.SysFont(None, 48)
     text = font.render("You Win!", True, (255, 0, 0))
     score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
+    click_text = font.render("Click any key to restart!", True, (255, 0, 0, 0))
 
     screen.blit(text, (screen.get_width() // 2 - text.get_width() // 2, 200))
     screen.blit(
         score_text, (screen.get_width() // 2 - score_text.get_width() // 2, 300)
     )
-
+    screen.blit(
+        click_text, (screen.get_width() // 2 - click_text.get_width() // 2, 400)
+    )
     pygame.display.update()
 
     while True:
@@ -83,13 +140,24 @@ def win_screen(screen, score):
 
 
 def game_over_screen(screen, score):
+    """
+    Display the game over screen with the final score.
+
+    Args:
+        screen (pygame.Surface): The game screen.
+        score (int): The final score.
+    """
     font = pygame.font.SysFont(None, 48)
     text = font.render("Game Over", True, (255, 0, 0))
     score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
+    click_text = font.render("Click any key to restart!", True, (255, 0, 0, 0))
 
     screen.blit(text, (screen.get_width() // 2 - text.get_width() // 2, 200))
     screen.blit(
         score_text, (screen.get_width() // 2 - score_text.get_width() // 2, 300)
+    )
+    screen.blit(
+        click_text, (screen.get_width() // 2 - click_text.get_width() // 2, 400)
     )
     pygame.display.update()
 
@@ -105,13 +173,16 @@ def game_over_screen(screen, score):
 
 
 def main():
+    """
+    Runs Rainbow Merge Game
+    """
     pygame.init()
     pygame.font.init()
 
     controller = P1Controller()
-    moving_animal = MovingAnimal(1, controller)
+    moving_block = MovingBlock(1, controller)
     player1 = P1Controller()
-    subgame = Subgame()
+    view = View()
     clock = pygame.time.Clock()
 
     blocks_list = [
@@ -162,14 +233,17 @@ def main():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 player1_input = player1.get_user_input()
-                moving_animal.move_animal(player1_input, blocks_list)
+                moving_block.move_block(player1_input, blocks_list)
                 black_block_created = check_for_black(blocks_list)
                 if black_block_created:
-                    win_screen(subgame.screen, score)
                     game_over = True
+                    if game_over == True:
+                        win_screen(view.screen, score)
                 first_row_has_elements = check_first_column(blocks_list)
                 if first_row_has_elements:
                     game_over = True
+                    if game_over == True:
+                        game_over_screen(view.screen, score)
 
         merged_block = handle_merges(
             blocks_list,
@@ -197,20 +271,19 @@ def main():
             score += color_scores.get(color_names.get(fallen_block.color), 0)
             print(color_scores.get(color_names.get(fallen_block.color), 0))
 
-        subgame.draw_board(subgame.subgame_board)
-        subgame.display_score(score, subgame.screen)
-        moving_animal.draw_moving_animals(subgame.screen)
+        view.draw_board(view.view_board)
+        view.display_score(score, view.screen)
+        moving_block.draw_moving_blocks(view.screen)
         for x_p in range(8):
             for y_p in range(8):
                 if isinstance(blocks_list[x_p][y_p], Block):
-                    blocks_list[x_p][y_p].draw(subgame.screen)
+                    blocks_list[x_p][y_p].draw(view.screen)
 
         pygame.display.update()
-        subgame.screen.fill(subgame.background_color)
+        view.screen.fill(view.background_color)
 
         clock.tick(60)
 
-    game_over_screen(subgame.screen, score)
 
-
-main()
+if __name__ == "__main__":
+    main()

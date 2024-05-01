@@ -1,7 +1,7 @@
 import pygame
 from abc import ABC
 import random
-from board import Board
+from rainbow_merge_board import Board
 
 
 class Block:
@@ -9,7 +9,7 @@ class Block:
         """
         Initialize a Block instance with specified color index, and x and y positions.
 
-        Parameters:
+        Args:
             x_position (int): The x-coordinate where the block will be placed on the screen.
             y_position (int): The y-coordinate where the block will be placed on the screen.
             n (int): The color index, used to determine the block's color from a predefined list.
@@ -56,7 +56,7 @@ class Block:
         """
         Draw the block on a specified Pygame screen as a 60x60 pixel rectangle.
 
-        Parameters:
+        Args:
             screen: The Pygame display surface to draw the block on.
         """
         pygame.draw.rect(
@@ -72,13 +72,13 @@ class Block:
         """
         Merge the current block with the one below it if conditions are met.
 
-        Parameters:
-            self (Grid): The grid object instance.
+        Args:
             x_position (int): The x-coordinate of the current block.
             y_position (int): The y-coordinate of the current block.
             blocks_list (list): 2D list representing the grid of blocks.
         Returns:
-            None
+            True if the blocks are the same color and vertically merged together,
+            False if the blocks are not the same color
         """
         # vertical merges
         if y_position < 7:
@@ -110,7 +110,7 @@ class Block:
         """
         Makes the block fall to the next available space directly below it, if possible.
 
-        Parameters:
+        Args:
             x_position (int): The x-coordinate index of the block in the grid.
             y_position (int): The y-coordinate index of the block in the grid.
             blocks_list (list of lists): 2D list representing the grid of blocks.
@@ -146,13 +146,13 @@ class Block:
         """
         Merge the current block with the one on its right if conditions are met.
 
-        Parameters:
-            self (Grid): The grid object instance.
+        Args:
             x_position (int): The x-coordinate of the current block.
             y_position (int): The y-coordinate of the current block.
             blocks_list (list): 2D list representing the grid of blocks.
         Returns:
-            None
+            True if the blocks are the same color and horizontally merged together,
+            False if the blocks are not the same color
         """
         if x_position < 7:
             # check if there is a block on the right side of the current one
@@ -174,24 +174,14 @@ class Block:
         return False
 
 
-class MovingAnimal:
+class MovingBlock:
     def __init__(self, player_num, controller):
         """
         Initializes a MovingAnimal instance, which represents a player-controlled element that can drop blocks onto a grid.
 
-        Parameters:
+        Args:
             player_num (int): The number identifying the player. This number determines certain behaviors like controller setup.
             controller: The input mechanism associated with the player. This can be a keyboard, gamepad, etc., specific to player one.
-
-        Attributes:
-            colors (list of tuple): A list of RGB color tuples used to visualize the animal.
-            n (int): Randomly selected initial color index for the animal.
-            possible_x_positions (list of int): Fixed x-coordinates where the animal can move horizontally.
-            possible_y_positions (list of int): Fixed y-coordinates where blocks can be dropped.
-            color (tuple): Current color of the animal determined by `n`.
-            player_num (int): Player identifier.
-            controller: Control mechanism for the player.
-            player_position (int): Current horizontal position index of the animal.
         """
         self.colors = [
             # B50303
@@ -224,14 +214,13 @@ class MovingAnimal:
             self.controller = controller
         self.player_position = 6
 
-    def move_animal(self, player_input, blocks_list):
+    def move_block(self, player_input, blocks_list):
         """
         Processes player input to move the animal left, right, or drop a block at the lowest possible unoccupied position in the column.
 
-        Parameters:
+        Args:
             player_input (str): The input command from the player ('left', 'right', or 'drop') indicating the desired action.
             blocks_list (list of lists): The grid where blocks are placed, used to check for available spaces when dropping blocks.
-
         """
         if player_input == "right":
             if self.player_position == 7:
@@ -261,11 +250,11 @@ class MovingAnimal:
                 self.n = random.randrange(4)
                 self.color = self.colors[self.n]
 
-    def draw_moving_animals(self, screen):
+    def draw_moving_blocks(self, screen):
         """
         Draws the moving animal on the provided Pygame screen at its current position using its current color.
 
-        Parameters:
+        Args:
             screen: The Pygame display surface where the animal will be drawn as a 60x60 pixel rectangle at a position determined by the current player position.
         """
         pos = self.possible_x_positions[self.player_position]
