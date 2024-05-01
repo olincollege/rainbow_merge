@@ -71,47 +71,47 @@ def main():
 
     color_names = {
         # B50303
-        (181, 3, 3): "Red",
-        # E55A10
-        (229, 90, 16): "Orange",
-        # F9A339
-        (249, 163, 57): "Light Orange",
-        # FAE46A
-        (250, 228, 106): "Yellow",
+        (181, 3, 3): "Dark Red",
+        # F26418
+        (242, 100, 24): "Orange",
+        # F89012
+        (248, 144, 18): "Light Orange",
+        # F9C74F
+        (249, 199, 79): "Yellow",
         # 90BE6D
-        (144, 190, 109): "Green",
+        (144, 190, 109): "Light Green",
         # 43AA8B
-        (67, 170, 139): "Green Blue",
+        (67, 170, 139): "Green",
+        # 4D908E
+        (77, 144, 142): "Green Blue",
         # 577590
-        (87, 117, 144): "Grey Blue",
+        (87, 117, 144): "Blue",
         # 277DA1
-        (39, 125, 161): "Blue",
+        (39, 125, 161): "Dark Blue",
         # 8358BB
         (131, 88, 187): "Purple",
-        # 070D0D
-        (7, 13, 13): "Black",
     }
     color_scores = {
         # B50303
-        "Red": 1,
-        # E55A10
+        "Dark Red": 1,
+        # F26418
         "Orange": 2,
-        # F9A339
+        # F89012
         "Light Orange": 3,
-        # FAE46A
+        # F9C74F
         "Yellow": 4,
         # 90BE6D
-        "Green": 5,
+        "Light Green": 5,
         # 43AA8B
-        "Green Blue": 6,
+        "Green": 6,
+        # 4D908E
+        "Green Blue": 7,
         # 577590
-        "Grey Blue": 7,
-        # 277DA1
         "Blue": 8,
+        # 277DA1
+        "Dark Blue": 9,
         # 8358BB
-        "Purple": 9,
-        # 070D0D
-        "Black": 10,
+        "Purple": 10,
     }
     score = 0  # initialize score
     while True:
@@ -175,54 +175,3 @@ def main():
 
 
 main()
-
-
-"""
-while True:
-        # pygame management
-        clock.tick(60)
-        events = pygame.event.get()
-
-        # draw features of level
-        game.draw_level_background(board)
-        game.draw_board(board)
-        if gates:
-            game.draw_gates(gates)
-        game.draw_doors(doors)
-
-        # draw player
-        game.draw_player([magma_boy, hydro_girl])
-
-        # move player
-        arrows_controller.control_player(events, magma_boy)
-        wasd_controller.control_player(events, hydro_girl)
-
-        game.move_player(board, gates, [magma_boy, hydro_girl])
-
-        # check for player at special location
-        game.check_for_death(board, [magma_boy, hydro_girl])
-
-        game.check_for_gate_press(gates, [magma_boy, hydro_girl])
-
-        game.check_for_door_open(fire_door, magma_boy)
-        game.check_for_door_open(water_door, hydro_girl)
-
-        # refresh window
-        game.refresh_window()
-
-        # special events
-        if hydro_girl.is_dead() or magma_boy.is_dead():
-            show_death_screen(game, controller, level)
-
-        if game.level_is_done(doors):
-            show_win_screen(game, controller)
-
-        if controller.press_key(events, K_ESCAPE):
-            show_level_screen(game, controller)
-
-        # close window is player clicks on [x]
-        for event in events:
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-"""

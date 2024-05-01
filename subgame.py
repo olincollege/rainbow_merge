@@ -26,7 +26,7 @@ class Subgame:
         # Draw blank board
         self.screen = pygame.display.set_mode(self.dimensions)
         self.screen.fill(self.background_color)
-        pygame.display.set_caption("Animal Merger")
+        pygame.display.set_caption("Rainbow Cascade")
 
     def draw_board(self, board):
         """Draws the board."""
