@@ -34,11 +34,8 @@ class Block:
         self.possible_y_positions = [220, 280, 340, 400, 460, 520, 580, 640]
         self.x_position = x_position
         self.y_position = y_position
-        self.death = False
 
     def get_color(self):
-        # testng
-
         return self.color
 
     def draw(self, screen):
@@ -83,7 +80,6 @@ class Block:
                     # kill current block again (to ensure no weird things happened during merge)
                     blocks_list[x_position][y_position] = " "
                     return True
-
         return False
 
     def fall(
@@ -109,12 +105,6 @@ class Block:
                 # kill current block again (to ensure no weird things happened during merge)
                 blocks_list[x_position][y_position] = " "
                 return True
-        else:
-            if isinstance(blocks_list[x_position][y_position], Block) and isinstance(
-                blocks_list[x_position][y_position + 1], str
-            ):
-                blocks_list[x_position][y_position].death = True
-
         return False
 
     def horizontal_merge(
