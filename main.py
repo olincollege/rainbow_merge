@@ -51,16 +51,46 @@ def check_first_column(blocks_list):
     return False
 
 
-def game_over_screen(screen, score):
+def check_for_black(blocks_list):
+    for row in blocks_list:
+        for block in row:
+            if isinstance(block, Block) and block.color == "black":
+                return True
+    return False
+
+
+def win_screen(screen, score):
     font = pygame.font.SysFont(None, 48)
-    text = font.render("Game Over", True, (255, 0, 0))
-    score_text = font.render(f"Final Score: {score}", True, (255, 255, 255))
+    text = font.render("You Win!", True, (255, 0, 0))
+    score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
 
     screen.blit(text, (screen.get_width() // 2 - text.get_width() // 2, 200))
     screen.blit(
         score_text, (screen.get_width() // 2 - score_text.get_width() // 2, 300)
     )
 
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == KEYDOWN:
+                main()  # Restart the game if any mouse button is clicked
+
+        pygame.time.wait(100)  # Add a small delay to prevent high CPU usage
+
+
+def game_over_screen(screen, score):
+    font = pygame.font.SysFont(None, 48)
+    text = font.render("Game Over", True, (255, 0, 0))
+    score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
+
+    screen.blit(text, (screen.get_width() // 2 - text.get_width() // 2, 200))
+    screen.blit(
+        score_text, (screen.get_width() // 2 - score_text.get_width() // 2, 300)
+    )
     pygame.display.update()
 
     while True:
@@ -123,6 +153,7 @@ def main():
     score = 0
 
     game_over = False
+    black_block_created = False  # Flag to track if a black block has been created
 
     while not game_over:
         for event in pygame.event.get():
@@ -132,6 +163,10 @@ def main():
             if event.type == pygame.KEYDOWN:
                 player1_input = player1.get_user_input()
                 moving_animal.move_animal(player1_input, blocks_list)
+                black_block_created = check_for_black(blocks_list)
+                if black_block_created:
+                    win_screen(subgame.screen, score)
+                    game_over = True
                 first_row_has_elements = check_first_column(blocks_list)
                 if first_row_has_elements:
                     game_over = True
