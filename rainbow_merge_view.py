@@ -21,7 +21,7 @@ class View:
         # Draw blank board
         self.screen = pygame.display.set_mode(self.dimensions)
         self.screen.fill(self.background_color)
-        pygame.display.set_caption("Rainbow Cascade")
+        pygame.display.set_caption("Rainbow Merge")
 
     def draw_board(self, board):
         """Draws the board."""
